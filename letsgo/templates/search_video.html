@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<br><br><br>
+<h3>Search Results: </h3>
+    {% if video_obj %}
+    <div class="container">
+      <div class="row">
+          {% for video in video_obj %}
+          <div class="col">
+            {% if video.thumbnail.url %}
+            <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+              <img src="{% static video.thumbnail.url %}" width="200" height="100">
+            </a>
+            {% else %}
+            <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+              <video height="150" autoplay muted controlsList="nodownload">
+                <source src="{% static video.video_file.url %}" type="video/mp4">
+              </video>
+            </a>
+            {% endif %}
+            <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+              <h6>{{video.title}}</h6>
+            </a>
+            <span class="text-muted">{{video.video_views.all.count}} views • {{video.pub_date}}</span>
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container">
+        <h5>No Results Found.</h5>
+    </div>
+    {% endif %}
+<!--div class="container my-4">
+    <h3>Search Results: </h3>
+    {% if video_obj %}
+        {% for video in video_obj %}
+        <div class="container">
+            <div class="row">
+              <div class="col">
+                {% if video.thumbnail %}
+                    <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+                        <img src="{% static video.thumbnail.url %}" class="w-100">
+                    </a>
+                {% else %}
+                    <video width="750" controls>
+                        <source src="{% static video.video_file.url %}" type="video/mp4">
+                    </video>
+                {% endif %}
+              </div>
+              <div class="col">
+                <h3>{{video.title}}</h3> 
+                <h6>{{video.desc}}</h6> 
+                <span class="text-muted">{{video.pub_date}}</span>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="container">
+        <h5>No Results Found.</h5>
+    </div>
+    {% endif %}
+</div-->
+{% endblock %}

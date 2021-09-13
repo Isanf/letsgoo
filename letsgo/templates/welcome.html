@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+    <!--Signup Modal-->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign Up / </h5>
+            <button class="btn btn-danger btn-sm" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal"> Login</button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'signup' %}" method="post">
+              {% csrf_token %}
+              <!--div class="mb-3">
+                <label for="fname" class="form-label">Login Name</label>
+                <input type="text" class="form-control" id="fname" name="fname">
+              </div-->
+              <div class="mb-3">
+                <label for="lname" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="lname" name="lname">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email or phone</label>
+                <input type="text" class="form-control" id="emailOrPhone" name="emailOrPhone" aria-describedby="emailHelp" oninput="validateIdForm()" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="pwd" id="exampleInputPassword1" required>
+              </div>
+              <div class="mb-3">
+                <label for="pwdverif" class="form-label">Password confirmation</label>
+                <span id="error"></span>
+                <input type="password" class="form-control" name="pwdverif" id="pwdverif" oninput="whenTyping()" required>
+              </div>
+              <span id="errorform"></span>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="signup" disabled>Sign Up</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!--Login Modal-->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Login / </h5>
+            <button class="btn btn-danger btn-sm" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signupModal">New account</button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email or Phone</label>
+                <input type="text" class="form-control" name="emailOrPhone2" id="emailOrPhone2" aria-describedby="emailHelp" oninput="validateIdFormat()" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="pwd" id="exampleI" required>
+              </div>
+              <span id="errorformat"></span>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="login" disabled>Login</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--Welcome Content-->
+    <br><br><br>
+    <div class="container">
+      <div class="row">
+          {% for video in videos %}
+          <div class="col">
+            {% if video.thumbnail.url %}
+            <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+              <img src="{% static video.thumbnail.url %}" width="200" height="100">
+            </a>
+            {% else %}
+            <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+              <video height="150" autoplay muted controlsList="nodownload">
+                <source src="{% static video.video_file.url %}" type="video/mp4">
+              </video>
+            </a>
+            {% endif %}
+            <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+              <h6>{{video.title}}</h6>
+            </a>
+            <span class="text-muted">{{video.video_views.all.count}} views • {{video.pub_date}}</span>
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+    <!--div class="container">
+      <div class="row my-4">
+
+        {% for video in videos %}
+        <div class="col-3">
+          <a href="#signupModal" data-bs-toggle="modal" style="text-decoration: none;">
+            <video width="250" autoplay muted controlsList="nodownload">
+              <source src="{% static video.video_file.url %}" type="video/mp4">
+            </video>
+          </a>
+          <a href="#loginModal" data-bs-toggle="modal" style="text-decoration: none;">
+            <h6>{{video.title}}</h6>  
+          </a>
+          <span class="text-muted">{{video.video_views.all.count}} views • {{video.pub_date}}</span>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div-->
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+      <div class="container">
+        <div class="projects--wrapper">
+          {% for category in categories %}
+            <div class="project--column">
+                <a href="{% url 'filter' category.title %}">
+                    <img class="project--thumbnail" src="{{category.thumbnail.url}}">
+                </a>
+                <div class="project--body">
+                  {{category.title}}
+                  <!--button class="btn btn-secondary rounded-pill btn-sm" type="button">{{category.title}}</button-->
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </nav>
+
+
+
+
+
+
+<script>
+
+    function whenTyping(){
+      const signup = document.getElementById("signup");
+      if (document.getElementById("pwdverif").value != document.getElementById("exampleInputPassword1").value) 
+        {
+          // Changing content and color of content
+          error.textContent = "Password not identic!"
+          error.style.color = "red"
+        } else {
+          signup.disabled = false;
+          error.textContent = ""
+        }
+    }   
+
+    function validateIdFormat()
+    {
+      var fieldValue= document.getElementById("emailOrPhone2").value;
+      const login = document.getElementById("login");
+      // taken from this SO post: http://stackoverflow.com/questions/7126345/regular-expression-to-require-10-digits-without-considering-spaces      
+      var phoneValidation= /^([\s\(\)\-]*\d[\s\(\)\-]*){8,15}$/; 
+      var mailValidation= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (fieldValue.match(phoneValidation)) {
+        // correct phone structure
+        login.disabled = false;
+        errorformat.textContent = ""
+      } else if (fieldValue.match(mailValidation)) {
+        // correct mail format
+        login.disabled = false;
+        errorformat.textContent = ""
+      } else {
+        login.disabled = true;
+        errorformat.textContent = "NB: Email or Phone only accepted! Courriel ou téléphone seulement acceptés!"
+        errorformat.style.color = "black"
+      }
+    }   
+
+    function validateIdForm()
+    {
+      var fieldValue= document.getElementById("emailOrPhone").value;
+      const signup = document.getElementById("signup");
+      // taken from this SO post: http://stackoverflow.com/questions/7126345/regular-expression-to-require-10-digits-without-considering-spaces      
+      var phoneValidation= /^([\s\(\)\-]*\d[\s\(\)\-]*){8,15}$/; 
+      var mailValidation= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (fieldValue.match(phoneValidation)) {
+        // correct phone structure
+        signup.disabled = false;
+        errorform.textContent = ""
+      } else if (fieldValue.match(mailValidation)) {
+        // correct mail format
+        signup.disabled = false;
+        errorform.textContent = ""
+      } else {
+        signup.disabled = true;
+        errorform.textContent = "NB: Email or Phone only accepted in second field! Courriel ou téléphone seulement acceptés dans le deuxième champs!"
+        errorform.style.color = "black"
+      }
+    }   
+
+</script>
+    
+{% endblock %}

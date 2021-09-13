@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<br><br><br>
+<div class="container">
+  <div class="row">
+      {% for video in all_videos %}
+      <div class="col">
+        {% if video.thumbnail.url %}
+        <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+          <img src="{% static video.thumbnail.url %}" width="200" height="100">
+        </a>
+        {% else %}
+        <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+          <video height="150" autoplay muted controlsList="nodownload">
+            <source src="{% static video.video_file.url %}" type="video/mp4">
+          </video>
+        </a>
+        {% endif %}
+        <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+          <h6>{{video.title}}</h6>
+        </a>
+        <span class="text-muted">{{video.video_views.all.count}} views • {{video.pub_date}}</span>
+      </div>
+      {% endfor %}
+    </div>
+</div>
+<!--Login Search-->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabe3" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+        <form class="d-flex" action="{% url 'search_video' %}" method="get">
+          <input class="form-control me-2 mx-4" name="search_video" type="search" style="min-width: 50%;" placeholder="Video..." aria-label="Search">
+          <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+    <!--div class="container">
+      <div class="row my-4">
+
+        {% for video in all_videos %}
+        <div class="col-3">
+          {% if video.thumbnail.url %}
+          <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+            <img src="{% static video.thumbnail.url %}" height="150" class="w-100">
+          </a>
+          {% else %}
+          <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+            <video height="150" autoplay muted controlsList="nodownload">
+              <source src="{% static video.video_file.url %}" type="video/mp4">
+            </video>
+          </a>
+          {% endif %}
+          <a href="{% url 'watch_video' video.id %}" style="text-decoration: none;">
+            <h6>{{video.title}}</h6>  
+          </a>
+          <span class="text-muted">{{video.video_views.all.count}} views • {{video.pub_date}}</span>
+
+        </div>
+        {% endfor %}
+
+      </div>
+    </div-->
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+      <div class="container">
+        <div class="projects--wrapper">
+          {% for category in categories %}
+            <div class="project--column">
+                <a href="{% url 'filter' category.title %}">
+                    <img class="project--thumbnail" src="{{category.thumbnail.url}}">
+                </a>
+                <div class="project--body">
+                  {{category.title}}
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </nav>
+
+{% endblock %}

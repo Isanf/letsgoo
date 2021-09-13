@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  
+  {% load static %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Animation-->
+    <!link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'bootstrap-icons-1.5.0/bootstrap-icons.css' %}" >
+    <!link rel="stylesheet" href="{% static 'navbar-fixed-right.min.css' %}" >
+    <link rel="icon" href="{% static 'img/letsgo_tiny.png' %}">
+    <!link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>LetsGo</title>
+    <style>
+      .projects--wrapper{
+          display: flex;
+          justify-content: flex-start;
+          gap: 2em;
+          /*margin-top: 2em;
+          margin-bottom: 2em;*/
+          overflow-x: auto;
+      
+      }
+
+      .projects--wrapper::-webkit-scrollbar {
+          width: 2px;
+
+      }
+
+      .projects--wrapper::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+
+      }
+      
+      .projects--wrapper::-webkit-scrollbar-thumb {
+        background-color: #197c8b;
+        outline: 1px solid slategrey;
+        border-radius: 100px;
+
+      }
+
+      .projects--wrapper::-webkit-scrollbar-thumb:hover{
+          background-color: #197c8b;
+      }
+
+      .project--column{
+          min-width: 80px;
+      
+      }
+
+      .project--thumbnail{
+          width: 100%;
+          height: 84px;
+          /*object-fit: cover;*/
+      }
+
+      .project--body{
+          background-color: #fff;
+          padding: 1em;
+      }
+
+
+      .skills--container{
+          width: 600px;
+          margin: 0 auto;
+          padding: 1em;
+      }
+
+      .skill--wrapper{
+          margin-top: 2em;
+          margin-bottom: 2em;
+          display: flex;
+          gap: 2em;
+          align-items: center;
+          
+      }
+
+      .skill--logo{
+          width: 60px;
+          object-fit: contain;
+      }
+
+      .other--skills--wrapper{
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1em;
+      }
+
+      .skill--tag{
+          background-color: #C4E7F2;
+          width: fit-content;
+          padding: 3px 20px;
+          border-radius: 20px;
+
+      }
+
+
+      .project--image{
+          max-width: 80px;
+      }
+
+      .contact--form{
+          display: block;
+          max-width: 600px;
+          margin: 0 auto;
+      }
+
+      @media (max-width:900px){
+          .hero--content--intro{
+              flex-direction: column;
+          }
+
+          .projects--wrapper{
+
+              grid-template-columns: 1fr ;
+
+              
+          }
+      }
+    </style>
+    <style>
+      .files input {
+        outline: 2px dashed #92b0b3;
+        outline-offset: -10px;
+        -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        padding: 120px 0px 85px 35%;
+        text-align: center !important;
+        margin: 0;
+        width: 100% !important;
+    }
+    .files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+        -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+        transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+    }
+    .files{ position:relative}
+    .files:after {  pointer-events: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 50px;
+        right: 0;
+        height: 56px;
+        content: "";
+        background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+        display: block;
+        margin: 0 auto;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+    .color input{ background-color:#f1f1f1;}
+    .files:before {
+        position: absolute;
+        bottom: 10px;
+        left: 0;  pointer-events: none;
+        width: 100%;
+        right: 0;
+        height: 57px;
+        content: " or drag it here. ";
+        display: block;
+        margin: 0 auto;
+        color: #2ea591;
+        font-weight: 600;
+        text-transform: capitalize;
+        text-align: center;
+    }
+    
+    /* extra div which gets the border */
+    .embed-border {
+      border: 10px solid #C5FF6D;
+      box-sizing: border-box; /* prevents extra width from being added */
+    }
+    
+    
+    
+    .embed-responsive iframe {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  
+  </style>
+  </head>
+  <body oncontextmenu="return false;">
+    <!--nav class="navbar navbar-expand-md navbar-dark bg-light fixed-right">
+      <img src="{% static 'Tour_Eiffel.jpg' %}">
+      <img src="{% static 'danse.png' %}">
+      {% block sidebar %}  {% endblock %}
+    </nav-->
+    <nav class="navbar top navbar-light bg-light">
+      <div class="container-fluid">
+          <div>
+              <a class="btn btn-outline-secondary" data-bs-toggle="offcanvas" href="#offcanvasLeft" role="button" aria-controls="offcanvasExample">
+                  <i class="bi bi-list"></i>
+              </a>
+              <a href="http://127.0.0.1:8000/"><img src="{% static 'img/letsgo.png' %}" width="150" alt="letsgo"></a>
+          </div>
+          <div>
+            <a href="{% url 'watch_prec_step' video.id step.id  %}"><button type="button" class="btn btn-success">
+              <i class="bi bi-caret-left"></i>
+            </button></a>
+            <a href="{% url 'watch_video' video.id %}"><button type="button" class="btn btn-danger rounded-pill"><h7 style="font-weight: bold; color:white">VIDEO</h7></button></a>
+            <a href="{% url 'watch_next_step' video.id step.id  %}"><button type="button" class="btn btn-success">
+                <i class="bi bi-caret-right"></i>
+            </button></a>
+          </div>
+          <div>
+            {% if user.is_authenticated %}
+            <a class="btn btn-outline-secondary btn-sm" data-bs-toggle="offcanvas" href="#offcanvasList" role="button" aria-controls="offcanvasExample">
+              <i class="bi bi-grid-fill"></i>
+            </a>
+            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="bi bi-search"></i></button>
+            {% endif %}
+            <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                <i class="bi bi-person"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
+              {% if not user.is_authenticated %}
+                <li>
+                  <div class="d-grid gap-2 col-3 mx-auto">
+                    <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</button>
+                  </div>
+                </li>
+              {% else %}
+              @{{request.user}}
+              <li>
+                <div class="d-grid gap-2 col-3 mx-auto"></div>
+                  <a href="{% url 'profile' request.user.username %}" style="text-decoration:none;"><button class="dropdown-item" type="button">Ta chaine</button></a>
+                  <a href="{% url 'dashboard' request.user.username %}" style="text-decoration:none;"><button class="dropdown-item" type="button">Administration</button></a>
+                  <li><hr class="dropdown-divider"></li>
+                  <a href="{% url 'logout' %}" class="text-danger" style="text-decoration:none;"><button class="dropdown-item text-danger" type="button">Logout</button></a>
+                </div>
+              </li>
+                {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="dropdown mt-3">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+            Menu
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a href="{% url 'home' %}" style="text-decoration:none;"><li><button class="dropdown-item" type="button">Accueil</button></li></a>
+            <a href="{% url 'nav' %}" style="text-decoration:none;"><li><button class="btn btn-warning" type="button">Premium</button></li></a>
+            {% if request.user.is_superuser %}        
+            <a href="{% url 'add_category' %}" style="text-decoration:none;"><li><button class="dropdown-item" type="button">Add Category</button></li></a>
+            <a href="{% url 'list_categories' %}" style="text-decoration:none;"><li><button class="dropdown-item" type="button">List Categories</button></li></a>
+            {% endif %}
+            <a href="{% url 'upload' %}" style="text-decoration:none;"><li><button class="dropdown-item" type="button">Upload Video</button></li></a>
+          </ul>
+        </div>
+        <div>
+        </div>
+        {% if counter %}
+        <br><br><br>
+        <div class="badge bg-warning text-wrap">
+          <h5><i class="bi bi-bag-check">{{counter}}</i></h5>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+
+
+
+        {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+        {% endif %}
+        <div class="d-flex justify-content-center">
+          <video height="77%" width="77%" controls autoplay muted controls controlsList="nodownload">
+            <source src="{% static step.video_file.url %}" type="video/mp4">
+          </video>
+        </div>
+        
+        <!--OffCanvasRight********************************************************************************************************************-->
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">User/Utilisateur</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              {% if request.user %}
+              <div style="font-weight: bold;">Bienvenue  {{ request.user.username }}</div>
+              {% endif %}
+              <div class="container my-4">
+                <!--Comments of this video-->
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                          <b>COMMENTS (<span id='count_comment'>{{comments.count}}</span>)</b>
+                        </button>
+                      </h2>
+                      <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="container my-2">
+                          <ul class="list-group" id="menu">
+                            {% for comment in comments %}
+                            <b>{{comment}}</b>  
+                            <li class="list-group-item">{{comment.comment}}</li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                        <div class="accordion-body">
+                          <form id="my_form">
+                            <textarea class="form-control" name="comment" id="comment" placeholder="Write your comment..."></textarea>
+                            <input class="btn btn-outline-success my-3" id="send_btn" type="submit" value="Comment">
+                          </form>
+              
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          </div>
+
+
+    <!--Search-->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabe3" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+          </div>
+          <div class="modal-body">
+            <form class="d-flex" action="{% url 'search_video' %}" method="get">
+              <input class="form-control me-2 mx-4" name="search_video" type="search" style="min-width: 50%;" placeholder="Video..." aria-label="Search">
+              <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasList" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel"><h3>Next videos</h3></h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="col">
+          <div class="container my-3">
+            <div class="list-group my-2">
+              <div class="card">
+                {% for vide in video.user.videopost_set.all %}
+                <a href="{% url 'watch_video' vide.id %}" style="text-decoration: none;">
+                  <h6>{{vide.title}}</h6>
+                </a>
+                <a href="{% url 'watch_video' vide.id %}" style="text-decoration: none;">
+                  <video width="100%" controlsList="nodownload">
+                    <source src="{% static vide.video_file.url %}" type="video/mp4">
+                  </video>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        
+        var send_btn = $('#send_btn');
+        send_btn.on('click', function(event){
+          event.preventDefault();
+          var comment = $('#comment').val();
+          var ul_menu = $('#menu');
+          var count_comment = $('#count_comment');
+        
+          $.ajax({
+            type: 'GET',
+            url: '{% url "add_comment" %}',
+            data: {comment_text: comment, video_id: '{{video.id}}'},
+            dataType: 'json',
+            success: function(data){
+              if(data.comment)
+              {
+                var comment_res = data.comment;
+                var li_html = "<b>{{request.user}}</b><li class='list-group-item'>"+comment_res+"</li>";
+        
+                ul_menu.prepend(li_html);
+                count_comment.text(data.count_comments);
+                $('#my_form').trigger('reset');
+        
+              }
+        
+            }
+        
+          });
+        });
+        </script>
+        
+        
+        
+        <script type="text/javascript">
+        var like_btn = $('#like_btn');
+        like_btn.on('click', function(event){
+          event.preventDefault();
+          var count_likes = $('#count_likes');
+          var like_icon = $('#like_icon');
+        
+          $.ajax({
+            url: '{% url "add_like" video.id %}',
+            data: {},
+            dataType: 'json',
+            success: function(data){
+              if(data.is_liked)
+              {
+                like_icon.html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"><path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/></svg>');
+                count_likes.text(data.likes_count);
+              }
+              else
+              {
+        
+                like_icon.html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>');
+               count_likes.text(data.likes_count);
+             }
+        
+           }
+         });
+        });
+        
+        </script>
+
+        <!script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script src="{% static 'bootstrap.bundle.min.js' %}" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+      </body>
+</html>

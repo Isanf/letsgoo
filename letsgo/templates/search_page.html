@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container my-4">
+    <h3>Search Results: </h3>
+    {% if user_obj %}
+    <div class="row">
+    {% for user in user_obj %}
+    <div class="col-4">
+    <div class="card my-3" style="width: 18rem;">
+        <img src="{% static user.userdata.profile_pic.url %}" class="img-thumbnail card-img-top" style="height: 250px;" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{user.username}}</h5>
+            <p class="card-text">{{user.userdata.about|truncatewords:6}}</p>
+            <a href="{% url 'profile' user.username %}" class="btn btn-primary">View Profile</a>
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+    {% else %}
+    <div class="container">
+        <h5>No Results Found.</h5>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

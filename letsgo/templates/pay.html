@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+    .donation--wrapper {
+        margin: 0 auto;
+    }
+</style>
+<br><br><br>
+<div class="container">
+
+    <div style="width: 300px;" class="card my-3 donation--wrapper">
+        <div class="card-body">
+            <h3>TUTOS de performance :</h3>
+            <h3>Performance TUTORIALS:</h3>
+            <p>Il vous coutera juste 5 EUR pour tout le mois, accès illimité aux ressouces de 5 TUTOS chaines différentes</p>
+            <p>It will cost you just 5 EUR for the whole month, unlimited access to the resources of 5 different TUTOS channels</p>
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+
+</div>
+<!--<div class="btn btn-danger" onclick="fade();">TEST</div>
+<a href="{% url "none" %}">TEST</a>-->
+<script
+        src="https://www.paypal.com/sdk/js?client-id=AS2bbs406D9CLSBCbC1gv05CTIcrA8CEYa3VocnVc62ab7ABrPsUK1KA2tQGNFs6zanXypyUk10xdUxa&currency=EUR"></script>
+<script>
+    // Render the PayPal button into #paypal-button-container
+
+    paypal.Buttons({
+
+        style: {
+            color: 'gold',
+            shape: 'pill',
+            label: 'pay',
+            height: 40
+        },
+
+        // Set up the transaction
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '05.00'
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                // Show a success message to the buyer
+                fade();
+                alert("Successful payment by " + details.payer.name.given_name + "!. Paiement réussi par "+ details.payer.name.given_name + "!.")
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+
+    f/*unction fade(){
+        var msg = "Payment succed. Paiement reussi:)";
+        $.ajax({
+            type: 'POST',
+            url: '{% url "none" %}',
+            data: {
+                CSRF: getCSRFTokenValue(),
+            }
+        })
+            .done(function( msg ) {
+                alert( "Data: " + msg );
+
+        });
+    }*/
+
+    function fade(){
+        $.ajax({
+            type: 'GET',
+            url: '{% url "none" %}',
+            dataType: 'json',
+        });
+    }
+
+
+</script>
+
+{% endblock %}

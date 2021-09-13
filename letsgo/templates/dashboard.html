@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container my-3 py-3">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card" style="width: 15rem;">
+                <div class="card border border-danger bg-danger text-light" style="width: 15rem;">
+                    <div class="card-body">
+                        <h2 class="card-title text-center"><span id="text_v_likes">{{total_likes}}</span> Likes</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card" style="width: 15rem;">
+                <div class="card border border-danger bg-danger text-light" style="width: 15rem;">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">{{user_data.subscribers.all.count}} Subscribers</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card" style="width: 15rem;">
+                <div class="card border border-danger bg-danger text-light" style="width: 15rem;">
+                    <div class="card-body">
+                        <h2 class="card-title text-center"><span id='text_v_count'>{{videos.count}}</span> Videos</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card" style="width: 15rem;">
+                <div class="card border border-danger bg-danger text-light" style="width: 15rem;">
+                    <div class="card-body">
+                        <h2 class="card-title text-center"><span id='text_v_count'>{{total_views}}</span> Views</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container">
+    <div class="d-flex align-items-start">
+        <div class="nav flex-column nav-pills px-4 py-4 me-3 border" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active h5" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Videos</a>
+            <a class="nav-link h5" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
+        </div>
+
+
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <div class="container">
+                    {% for video in videos %}
+                    <div class="card my-3 border-dark" id="{{video.id}}">
+                        <h5 class="card-header">{{video.title}}</h5>
+                        <div class="card-body">
+                            <img src="{% static video.thumbnail.url %}" class="img-thumbnail w-25">         
+                            <p class="card-text">{{video.desc|truncatewords:5}}</p>
+                            <a href="{% url 'watch_video' video.id %}" class="btn btn-primary">Watch Now</a>
+                            <span class="mx-4">
+                                <button class="btn btn-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                    </svg>
+                                    <b>{{video.likes.count}}</b>
+                                </button>
+
+                                <button class="btn btn-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                    </svg>
+                                    <b>{{video.video_views.count}}</b>
+                                </button>
+
+                                <button class="btn btn-info">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-vector-pen" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828L10.646.646zm-1.8 2.908l-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"/>
+                                        <path fill-rule="evenodd" d="M2.832 13.228L8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086.086-.026z"/>
+                                    </svg>
+                                    <b>{{video.comment_set.all.count}}</b>
+                                </button>
+
+                            </span>
+                            <a class="btn btn-outline-danger mx-2 del_btn" id="{{video.id}}" style="float: right;">Delete</a>
+                            <a href="#" class="btn btn-outline-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{video.id}}" style="float: right;">Edit</a>
+                            <!-- Button trigger modal -->
+
+
+                            <!-- Edit Video Modal -->
+                            <div class="modal fade" id="exampleModal{{video.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Video Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{% url 'edit_video' video.id %}" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-floating">
+                                                    <input type="text" placeholder="Title" name="new_title" class="form-control my-2 new_title" id="new_title{{video.id}}" value="{{video.title}}">
+                                                    <label for="floatingInput" >Title</label>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <textarea class="form-control my-2 new_desc" id="new_desc{{video.id}}" placeholder="Description" name="new_desc" style="height: 300px;">{{video.desc}}</textarea>
+                                                    <label for="floatingInput">Description</label>
+                                                </div>
+                                                <div class="form-floating">
+                                                <select name="new_cate" class="form-control new_cate" id="new_cate{{video.id}}" name="category">
+                                                    <option>{{video.category}}</option>
+                                                    <option>Science & Techanology</option>
+                                                    <option>Fashion</option>
+                                                    <option>Food</option>
+                                                    <option>Education</option>
+                                                    <option>Blogs</option>
+                                                </select>
+                                                <label for="floatingInput">Category</label>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" id="edit_btn{{video.id}}" class="btn btn-primary edit_btn">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade " style="width:800px;" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <div class="container">
+
+                    <div class="container">
+                        <h3>Additional Data</h3>
+                        <form action="{% url 'update_details' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-8 my-auto">
+
+                                    <input type="file" name="img_field" accept="image/*" class="form-control">
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <b><label>Current Profile Pic</label></b>
+
+                                    <img src="{% static user_data.profile_pic.url %}" class="rounded" style="width: 150px; height: 200px;" alt="{{user_data.profile_pic}}">
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <b><label for="about_text">About</label></b>
+                                    <textarea placeholder="About yourself..." class="form-control" style="height: 100px;" name="about_text">{{user_data.about}}</textarea>
+                                </div>
+                            </div>
+                            <input type="submit" id="update_btn" value="Update" class="btn btn-outline-success my-3">
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="container">
+                        <h3 class="text-danger">Danger Zone</h3>
+                        <form>
+                            <input type="text" name="" placeholder="Type Your Username to Verify" class="form-control">
+                            <input type="submit" name="" value="Deactivate Your Account" class="btn btn-outline-danger my-3">
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+var btn = $('.del_btn');
+btn.on('click',function(event){
+    event.preventDefault();
+    var vid = $(this).attr('id');
+    var v_count = $('#text_v_count');
+    var v_likes = $('#text_v_likes');
+
+        $.ajax({
+            type: 'GET',
+            url: '{% url "delete_video" %}',
+            data: {videoId: vid},
+            dataType: 'json',
+            success: function(data){
+                if(data.video_id)
+                {
+                    var vid = data.video_id;
+                    $('div').remove('#'+vid);
+                    v_count.text(data.videosCount);
+                    v_likes.text(data.videosLikes);
+                }
+
+
+            }
+        }); 
+    });
+
+
+</script>
+
+{% endblock %}

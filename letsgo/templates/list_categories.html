@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<br><br><br>
+    <h3>Tags</h3><a href="{% url 'add_category' %}" style="text-decoration:none;"><button class="btn-secondary" type="button">Add Category</button></a>
+    <div class="container">
+      {% for category in categories %}
+        <div class="row">
+            <!--div class="col">
+                <a href="">
+                    <img class="project--thumbnail" src="{{category.thumbnail.url}}" >
+                </a>
+            </div-->
+            <div class="col-sm-4">
+                <div class="project--body">
+                <button class="btn btn-secondary rounded-pill btn-sm" type="button">{{category.title}}</button>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-outline-danger mx-2 del_btn" id="{{category.id}}" style="float: right;">Delete</a>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!--div class="projects--wrapper">
+        {% for category in categories %}
+            <div class="project--column">
+                <a href="">
+                    <img class="project--thumbnail" src="{{category.thumbnail.url}}">
+                </a>
+                <div class="project--body">
+                    <button class="btn btn-secondary rounded-pill btn-sm" type="button">{{category.title}}</button>
+                    <a class="btn btn-outline-danger mx-2 del_btn" id="{{category.id}}" style="float: right;">Delete</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div-->
+
+    <script type="text/javascript">
+        var btn = $('.del_btn');
+        btn.on('click',function(event){
+            event.preventDefault();
+            var category = $(this).attr('id');
+        
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "delete_categ" %}',
+                    data: {categId: category},
+                    dataType: 'json',
+                    success: function(data){
+                        if(data.category_id)
+                        {
+                            var category = data.category_id;
+                            $('div').remove('#'+category);
+                        }
+                    }
+                }); 
+                window.location.href = "http://127.0.0.1:8000/list_categories/";
+            });
+    </script>
+{% endblock %}
