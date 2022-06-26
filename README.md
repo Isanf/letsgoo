@@ -1,2 +1,2 @@
 # letsgoo
-Famous Project to conquer the web
+Proof of Concept project
